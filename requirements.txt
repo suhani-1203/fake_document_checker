@@ -11,3 +11,4 @@ sqlalchemy
 langdetect
 language-tool-python
 Pillow
+pandas

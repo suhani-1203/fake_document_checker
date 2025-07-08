@@ -11,6 +11,17 @@ def detect_document_type(text):
         return "Land Document"
     return "Unknown"
 
+import re
+
 def validate_pan(text):
     pattern = r"[A-Z]{5}[0-9]{4}[A-Z]"
-    return re.findall(pattern, text)
+    return re.search(pattern, text)
+
+def validate_aadhaar(text):
+    pattern = r"\d{4}\s\d{4}\s\d{4}"
+    return re.search(pattern, text)
+
+def validate_voterid(text):
+    pattern = r"[A-Z]{3}[0-9]{7}"
+    return re.search(pattern, text)
+
