@@ -1,0 +1,92 @@
+// Upload.jsx
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import UploadCard from "../Components/UploadCard";
+import Loader from "../Components/Loader";
+import toast from "react-hot-toast";
+
+export default function Upload() {
+  const [file, setFile] = useState(null);
+  const [docType, setDocType] = useState("Aadhar Card");
+  const [step, setStep] = useState("upload");
+  const navigate = useNavigate();
+
+  const handleUpload = () => {
+    if (!file) return toast.error("No file selected");
+
+    setStep("uploaded");
+
+    setTimeout(() => {
+      setStep("analyzing");
+      toast.loading("Analyzing your document...");
+
+      setTimeout(() => {
+        toast.dismiss();
+        const mockResults = {
+          verdict: "Suspicious",
+          fileName: file.name,
+          docType,
+          anomalies: [
+            { type: "location", message: "Unknown village: Bhupalgadh" },
+            { type: "grammar", message: "Strange phrasing: 'as per my belief'" },
+          ],
+        };
+        navigate("/results", { state: { resultData: mockResults } });
+      }, 2000);
+    }, 2000);
+  };
+
+  if (step === "uploaded") {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 to-fuchsia-100 flex flex-col items-center justify-center px-6 text-center animate-fade-in-up">
+        <h2 className="text-3xl font-bold text-fuchsia-700 mb-2">✅ Document Uploaded</h2>
+        <p className="text-sm text-gray-600">Hold tight… we’re preparing to analyze your document.</p>
+      </div>
+    );
+  }
+
+  if (step === "analyzing") {
+    return <Loader message="Analyzing your document for location, grammar, and duplication..." />;
+  }
+
+  return (
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-pink-100 via-fuchsia-100 to-purple-100 flex items-center justify-center px-6 py-12 overflow-hidden">
+      {/* 🫧 Background blobs */}
+      <div className="absolute top-[-80px] left-[-100px] w-[300px] h-[300px] bg-purple-300 opacity-30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-pink-300 opacity-30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-[40%] right-[50%] w-[200px] h-[200px] bg-fuchsia-200 opacity-20 rounded-full blur-2xl animate-pulse" />
+
+      {/* ✨ Main Upload Section with AI Visual */}
+      <div className="z-10 max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center gap-12">
+        {/* 👁️‍🗨️ Blur visual card */}
+        <div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in">
+          <div className="text-6xl">🧠</div>
+          <h3 className="text-xl font-semibold text-fuchsia-700">Fake Document Checker</h3>
+          <p className="text-sm text-gray-600">
+            Our AI scans your uploaded PDFs for <span className="font-medium">fake places</span>,
+            <span className="font-medium"> grammar issues</span> and
+            <span className="font-medium"> duplicate content</span>.
+          </p>
+        </div>
+
+        {/* Upload Card Section */}
+        <div className="flex flex-col items-center gap-6 w-full max-w-xl animate-fade-in-up">
+          <h1 className="text-3xl sm:text-4xl font-bold text-fuchsia-800 text-center">
+            Upload Document for Verification
+          </h1>
+          <p className="text-gray-600 text-sm text-center max-w-md">
+            Upload your official PDF. Our AI flags grammar issues, fake places, and duplicates.
+          </p>
+          <UploadCard
+            file={file}
+            setFile={setFile}
+            docType={docType}
+            setDocType={setDocType}
+            isUploading={false}
+            onSubmit={handleUpload}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
