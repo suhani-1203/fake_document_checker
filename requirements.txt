@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+pytesseract
+pdfplumber
+spacy
+fuzzywuzzy
+python-Levenshtein
+psycopg2-binary
+sqlalchemy
+langdetect
+language-tool-python
+Pillow
