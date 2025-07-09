@@ -9,11 +9,11 @@ export default function Upload() {
   const [docType, setDocType] = useState("Aadhar Card");
   const [step, setStep] = useState("upload");
   const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
-  const handleUpload = () => {
-    if (!file) return toast.error("No file selected");
-
+  const handleConfirm = () => {
+    setShowConfirm(false);
     setStep("uploaded");
 
     setTimeout(() => {
@@ -55,6 +55,11 @@ export default function Upload() {
     }, 2000);
   };
 
+  const handleUpload = () => {
+    if (!file) return toast.error("No file selected");
+    setShowConfirm(true);
+  };
+
   if (step === "uploaded") {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-100 to-fuchsia-100 flex flex-col items-center justify-center px-6 text-center animate-fade-in-up">
@@ -67,9 +72,7 @@ export default function Upload() {
   }
 
   if (step === "analyzing") {
-    return (
-      <Loader message="Analyzing your document for location, grammar, and duplication..." />
-    );
+    return <Loader message="Analyzing your document for location, grammar, and duplication..." />;
   }
 
   if (step === "error") {
@@ -94,39 +97,35 @@ export default function Upload() {
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-pink-100 via-fuchsia-100 to-purple-100 flex items-center justify-center px-6 py-12 overflow-hidden">
-      {/* 🫧 Background blobs */}
+      {/* Background Blobs */}
       <div className="absolute top-[-80px] left-[-100px] w-[300px] h-[300px] bg-purple-300 opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-pink-300 opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute top-[40%] right-[50%] w-[200px] h-[200px] bg-fuchsia-200 opacity-20 rounded-full blur-2xl animate-pulse" />
 
-      {/* ✨ Main Upload Section */}
+      {/* Main Upload Section */}
       <div className="z-10 max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center gap-12">
-        
-{/* 🌟 Trust Badge Visual Card */}
-<div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 w-full max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in mt-20">
-  <div className="text-5xl">🛡️</div>
-  <h3 className="text-xl font-bold text-fuchsia-700">Trusted & Verified</h3>
-
-  <div className="flex flex-col items-start text-sm text-gray-700 gap-2 mt-2">
-    <div className="flex items-center gap-2">
-      <span className="text-lg">📄</span>
-      <span>Smart Document Checks</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="text-lg">🔒</span>
-      <span>Secure & Private</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="text-lg">⚡</span>
-      <span>Fast Results</span>
-    </div>
-  </div>
-
-  <p className="text-xs text-gray-500 italic mt-3">
-    Upload with confidence. Let us handle the rest.
-  </p>
-</div>
-
+        {/* Info Card */}
+        <div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 w-full max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in mt-[72px]">
+          <div className="text-5xl">🛡️</div>
+          <h3 className="text-xl font-bold text-fuchsia-700">Trusted & Verified</h3>
+          <div className="flex flex-col items-start text-sm text-gray-700 gap-2 mt-2">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">📄</span>
+              <span>Smart Document Checks</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🔒</span>
+              <span>Secure & Private</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">⚡</span>
+              <span>Fast Results</span>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 italic mt-3">
+            Upload with confidence. Let us handle the rest.
+          </p>
+        </div>
 
         {/* Upload Card Section */}
         <div className="flex flex-col items-center gap-6 w-full max-w-xl animate-fade-in-up">
@@ -136,6 +135,15 @@ export default function Upload() {
           <p className="text-gray-600 text-sm text-center max-w-md">
             Upload your official PDF. We’ll let you know if anything looks suspicious.
           </p>
+
+          {file && (
+            <iframe
+              src={URL.createObjectURL(file)}
+              title="Document Preview"
+              className="border w-full h-52 rounded-xl shadow-md"
+            ></iframe>
+          )}
+
           <UploadCard
             file={file}
             setFile={setFile}
@@ -146,6 +154,32 @@ export default function Upload() {
           />
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full">
+            <h3 className="text-lg font-bold text-gray-800 mb-3">Are you sure?</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Do you want to proceed with analyzing this document?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirm}
+                className="px-4 py-2 text-sm rounded-lg bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+              >
+                Yes, Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

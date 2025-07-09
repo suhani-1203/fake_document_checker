@@ -200,7 +200,7 @@ if (a.suggestion) {
             ⬇️ Download Report
           </button>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Upload")}
             className="bg-gradient-to-r from-fuchsia-600 to-pink-500 hover:from-pink-600 hover:to-fuchsia-500 text-white px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition"
           >
             Upload Another
