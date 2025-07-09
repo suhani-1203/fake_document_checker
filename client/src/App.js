@@ -7,6 +7,9 @@ import Results from "./pages/Results";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import NotFound from "./pages/NotFound";
+import AboutUs from "./pages/AboutUs";
+import Terms from "./pages/Terms";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 export default function App() {
@@ -22,6 +25,9 @@ export default function App() {
             <Route path="/upload" element={<Upload />} />   {/* 🔁 Was root, now /upload */}
             <Route path="/results" element={<Results />} />
             <Route path="*" element={<NotFound />} /> {/* 🆕 Catch-all route */}
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
           </Routes>
         </div>
 
