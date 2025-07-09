@@ -23,7 +23,7 @@ export default function Upload() {
       setTimeout(() => {
         toast.dismiss();
 
-        const simulateError = false; // set to true to test fallback UI
+        const simulateError = false;
 
         if (simulateError) {
           setError("Analysis failed due to a server error.");
@@ -99,19 +99,34 @@ export default function Upload() {
       <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-pink-300 opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute top-[40%] right-[50%] w-[200px] h-[200px] bg-fuchsia-200 opacity-20 rounded-full blur-2xl animate-pulse" />
 
-      {/* ✨ Main Upload Section with AI Visual */}
+      {/* ✨ Main Upload Section */}
       <div className="z-10 max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center gap-12">
-        {/* 👁️‍🗨️ Blur visual card */}
-        <div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in">
-          <div className="text-6xl">🧠</div>
-          <h3 className="text-xl font-semibold text-fuchsia-700">Fake Document Checker</h3>
-          <p className="text-sm text-gray-600">
-            Our AI scans your uploaded PDFs for{" "}
-            <span className="font-medium">fake places</span>,
-            <span className="font-medium"> grammar issues</span> and
-            <span className="font-medium"> duplicate content</span>.
-          </p>
-        </div>
+        
+{/* 🌟 Trust Badge Visual Card */}
+<div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 w-full max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in mt-20">
+  <div className="text-5xl">🛡️</div>
+  <h3 className="text-xl font-bold text-fuchsia-700">Trusted & Verified</h3>
+
+  <div className="flex flex-col items-start text-sm text-gray-700 gap-2 mt-2">
+    <div className="flex items-center gap-2">
+      <span className="text-lg">📄</span>
+      <span>Smart Document Checks</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="text-lg">🔒</span>
+      <span>Secure & Private</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="text-lg">⚡</span>
+      <span>Fast Results</span>
+    </div>
+  </div>
+
+  <p className="text-xs text-gray-500 italic mt-3">
+    Upload with confidence. Let us handle the rest.
+  </p>
+</div>
+
 
         {/* Upload Card Section */}
         <div className="flex flex-col items-center gap-6 w-full max-w-xl animate-fade-in-up">
@@ -119,7 +134,7 @@ export default function Upload() {
             Upload Document for Verification
           </h1>
           <p className="text-gray-600 text-sm text-center max-w-md">
-            Upload your official PDF. Our AI flags grammar issues, fake places, and duplicates.
+            Upload your official PDF. We’ll let you know if anything looks suspicious.
           </p>
           <UploadCard
             file={file}
