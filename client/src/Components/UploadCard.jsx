@@ -3,20 +3,24 @@ import { CloudUpload, CheckCircle, Loader2 } from "lucide-react";
 
 const docTypes = ["Aadhar Card", "PAN Card", "Voter ID", "Land Document", "Other"];
 
-export default function UploadCard({ file, setFile, docType, setDocType, onSubmit, isUploading }) {
+export default function UploadCard({ file, setFile, docType, setDocType, onSubmit, isUploading, accept }) {
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
-    if (uploadedFile && uploadedFile.type === "application/pdf") {
+
+    if (
+      uploadedFile &&
+      ["application/pdf", "image/jpeg", "image/jpg", "image/png"].includes(uploadedFile.type)
+    ) {
       setFile(uploadedFile);
     } else {
-      alert("Please upload a valid PDF.");
+      alert("Only PDF, JPG, JPEG, or PNG files are allowed.");
     }
   };
 
   return (
     <div className="bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-8 w-full max-w-xl border border-fuchsia-200 hover:shadow-fuchsia-400 transition duration-300 transform hover:scale-[1.02] animate-fade-in">
       <div className="flex flex-col gap-5 items-center">
-        {/* PDF Drop Zone */}
+        {/* Upload Box */}
         <label
           htmlFor="fileInput"
           className="w-full cursor-pointer border-2 border-dashed border-fuchsia-400 rounded-2xl p-6 text-center hover:bg-fuchsia-50 transition duration-200 hover:scale-[1.02]"
@@ -30,19 +34,24 @@ export default function UploadCard({ file, setFile, docType, setDocType, onSubmi
           ) : (
             <div className="flex flex-col items-center text-fuchsia-600">
               <CloudUpload className="h-10 w-10" />
-              <p className="text-md mt-2 font-semibold">Drag or click to upload PDF</p>
+              <p className="text-md mt-2 font-semibold">
+                Drag or click to upload {accept.includes("pdf") ? "file" : "image"}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                (Only PDF, JPG, JPEG, PNG allowed)
+              </p>
             </div>
           )}
           <input
             id="fileInput"
             type="file"
-            accept="application/pdf"
+            accept={accept}
             onChange={handleFileChange}
             className="hidden"
           />
         </label>
 
-        {/* Dropdown for docType */}
+        {/* Dropdown */}
         <select
           value={docType}
           onChange={(e) => setDocType(e.target.value)}
