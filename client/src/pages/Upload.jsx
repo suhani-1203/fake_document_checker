@@ -97,14 +97,14 @@ export default function Upload() {
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-pink-100 via-fuchsia-100 to-purple-100 flex items-center justify-center px-6 py-12 overflow-hidden">
-      {/* Background Blobs */}
+      {/* 💫 Background Blobs */}
       <div className="absolute top-[-80px] left-[-100px] w-[300px] h-[300px] bg-purple-300 opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] bg-pink-300 opacity-30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute top-[40%] right-[50%] w-[200px] h-[200px] bg-fuchsia-200 opacity-20 rounded-full blur-2xl animate-pulse" />
 
-      {/* Main Upload Section */}
+      {/* Main Section */}
       <div className="z-10 max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center gap-12">
-        {/* Info Card */}
+        {/* Left Info Card */}
         <div className="bg-white/50 backdrop-blur-xl rounded-3xl border border-fuchsia-200 shadow-xl p-6 w-full max-w-xs text-center hidden lg:flex flex-col gap-4 items-center animate-fade-in mt-[72px]">
           <div className="text-5xl">🛡️</div>
           <h3 className="text-xl font-bold text-fuchsia-700">Trusted & Verified</h3>
@@ -128,20 +128,22 @@ export default function Upload() {
         </div>
 
         {/* Upload Card Section */}
-        <div className="flex flex-col items-center gap-6 w-full max-w-xl animate-fade-in-up">
-          <h1 className="text-3xl sm:text-4xl font-bold text-fuchsia-800 text-center">
+        <div className="w-full max-w-xl bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl p-8 border border-fuchsia-200 animate-fade-in-up">
+          <h1 className="text-3xl sm:text-4xl font-bold text-fuchsia-800 text-center mb-2">
             Upload Document for Verification
           </h1>
-          <p className="text-gray-600 text-sm text-center max-w-md">
-            Upload your official PDF. We’ll let you know if anything looks suspicious.
+          <p className="text-center text-sm text-gray-600 mb-6">
+            Upload your official PDF or image. We’ll let you know if anything looks suspicious.
           </p>
 
           {file && (
-            <iframe
-              src={URL.createObjectURL(file)}
-              title="Document Preview"
-              className="border w-full h-52 rounded-xl shadow-md"
-            ></iframe>
+            <div className="mb-6">
+              <img
+                src={URL.createObjectURL(file)}
+                alt="File preview"
+                className="w-full max-h-64 object-contain border rounded-xl shadow"
+              />
+            </div>
           )}
 
           <UploadCard
@@ -151,7 +153,17 @@ export default function Upload() {
             setDocType={setDocType}
             isUploading={false}
             onSubmit={handleUpload}
+            accept=".pdf,.jpg,.jpeg,.png"
           />
+
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => navigate("/get-started")}
+              className="text-fuchsia-600 hover:underline font-medium"
+            >
+              🔁 Go to Options
+            </button>
+          </div>
         </div>
       </div>
 
